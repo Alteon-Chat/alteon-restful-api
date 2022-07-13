@@ -71,6 +71,10 @@ const deleteUserById = async (req, res, next) => {
     next(error);
   }
 };
+const getCurrentUser = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
 
 module.exports = {
   getAllUser,
@@ -78,4 +82,5 @@ module.exports = {
   getUserById,
   updateUserById,
   deleteUserById,
+  getCurrentUser,
 };

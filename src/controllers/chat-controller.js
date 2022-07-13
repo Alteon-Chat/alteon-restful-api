@@ -72,10 +72,17 @@ const deleteChatById = async (req, res, next) => {
   }
 };
 
+const setUserChatId = (req, res, next) => {
+  if (!req.body.user) req.body.user = req.user.id;
+
+  next();
+};
+
 module.exports = {
   getAllChat,
   createChat,
   getChatById,
   updateChatById,
   deleteChatById,
+  setUserChatId,
 };
