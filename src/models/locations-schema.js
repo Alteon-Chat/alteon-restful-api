@@ -15,7 +15,10 @@ const locationSchema = new mongoose.Schema({
     default: "Indonesian",
   },
 });
-
+locationSchema.pre(/^find/, async function (next) {
+  this.select("-__v");
+  next();
+});
 const Location = mongoose.model("Location", locationSchema);
 
 module.exports = Location;

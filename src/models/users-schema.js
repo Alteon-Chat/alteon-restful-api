@@ -19,13 +19,16 @@ const userSchema = new mongoose.Schema({
   location: {
     type: mongoose.Schema.ObjectId,
     ref: "Location",
-    require: [true, "User must belong an location"],
   },
   createdAt: {
     type: Date,
     default: Date.now(),
   },
   updatedAt: Date,
+});
+userSchema.pre(/^find/, async function (next) {
+  this.select("-__v");
+  next();
 });
 
 const User = mongoose.model("User", userSchema);

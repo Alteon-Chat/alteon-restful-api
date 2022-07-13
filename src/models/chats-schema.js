@@ -15,7 +15,10 @@ const chatSchema = new mongoose.Schema({
     default: Date.now(),
   },
 });
-
+chatSchema.pre(/^find/, async function (next) {
+  this.select("-__v");
+  next();
+});
 const Chat = mongoose.model("Chat", chatSchema);
 
 module.exports = Chat;

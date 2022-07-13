@@ -1,71 +1,71 @@
-const User = require("../models/users-schema");
+const Chat = require("../models/chats-schema");
 
-const getAllUser = async (req, res, next) => {
+const getAllChat = async (req, res, next) => {
   try {
-    const users = await User.find();
+    const chats = await Chat.find();
 
     res.status(200).json({
       status: "success",
-      users,
+      result: chats,
     });
   } catch (error) {
     next(error);
   }
 };
 
-const createUser = async (req, res, next) => {
+const createChat = async (req, res, next) => {
   try {
-    const user = await User.create(req.body);
+    const chat = await Chat.create(req.body);
 
     res.status(201).json({
       status: "success",
-      user,
+      result: chat,
     });
   } catch (error) {
     next(error);
   }
 };
-const getUserById = async (req, res, next) => {
+const getChatById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const user = await User.findById(id);
+    const chat = await Chat.findById(id);
 
     res.status(200).json({
       status: "success",
-      user,
+      result: chat,
     });
   } catch (error) {
     next(error);
   }
 };
-const updateUserById = async (req, res, next) => {
+const updateChatById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const user = await User.findByIdAndUpdate(id, req.body, {
+    const chat = await Chat.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,
     });
 
     res.status(200).json({
       status: "success",
-      user,
+      chat,
     });
   } catch (error) {
     next(error);
   }
 };
 
-const deleteUserById = async (req, res, next) => {
+const deleteChatById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const user = await User.findByIdAndDelete(id);
+    const chat = await Chat.findByIdAndDelete(id);
 
     res.status(204).json({
       status: "success",
-      user,
+      result: null,
     });
   } catch (error) {
     next(error);
@@ -73,9 +73,9 @@ const deleteUserById = async (req, res, next) => {
 };
 
 module.exports = {
-  getAllUser,
-  createUser,
-  getUserById,
-  updateUserById,
-  deleteUserById,
+  getAllChat,
+  createChat,
+  getChatById,
+  updateChatById,
+  deleteChatById,
 };
