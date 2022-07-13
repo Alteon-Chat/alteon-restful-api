@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { promisify } = require("util");
 
 const Account = require("../models/accounts-schema");
 const User = require("../models/users-schema");
@@ -56,4 +57,27 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { signup, login };
+const protect = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+
+    if (!token) {
+      return res.status(404).json({
+        status: "error",
+        message: "incorrect token",
+      });
+    }
+    const decoded = await promisify(jwt.verify)(
+      token,
+      process.env.JWT_SECRET_KEY
+    );
+    const user = await User.findOne({ account: decoded.id });
+
+    req.user = user;
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { signup, login, protect };

@@ -26,8 +26,15 @@ const userSchema = new mongoose.Schema({
   },
   updatedAt: Date,
 });
-userSchema.pre(/^find/, async function (next) {
+userSchema.pre(/^find/, function (next) {
   this.select("-__v");
+  next();
+});
+userSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "account",
+    select: "email",
+  });
   next();
 });
 
